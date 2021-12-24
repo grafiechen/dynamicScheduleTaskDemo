@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dynamicscheduledemo.dao.WorkInfoDao">
+
+    <resultMap id="BaseResultMap" type="com.example.dynamicscheduledemo.entity.WorkInfo">
+        <result property="status" column="status"/>
+        <result property="id" column="id"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="createTime" column="create_time"/>
+        <result property="startDateTime" column="start_date_time"/>
+        <result property="workContent" column="work_content"/>
+        <result property="workName" column="work_name"/>
+    </resultMap>
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select id, status, update_time, create_time, start_date_time, work_content, work_name
+        from t_work_info
+        where id = #{workInfoId}
+    </select>
+    <select id="queryWorkInfoStatus" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select status
+        from t_work_info
+        where id = #{workInfoId}
+    </select>
+    <insert id="insert" parameterType="com.example.dynamicscheduledemo.entity.WorkInfo"
+            useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into t_work_info(status, update_time, create_time, start_date_time, work_content, work_name)
+        values (#{status}, #{updateTime}, #{createTime}, #{startDateTime}, #{workContent}, #{workName})
+    </insert>
+    <update id="updateStatus">
+        update t_work_info
+        set status      = #{status},
+            update_time = #{updateTime}
+        where id = #{workInfoId}
+    </update>
+</mapper>
